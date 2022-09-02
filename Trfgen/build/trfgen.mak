@@ -93,7 +93,7 @@ TARGETS:
 
 	@echo "Linking Objects, Creating Shared Library"
 	$(CC) -shared $(OBJ_DIR)/*.o \
-	   -liperf -L $(LIB_DIR) $(LOPTS) -o $(LIB_DIR)/$(LIBNAME)
+	   -liperf_arm64 -L $(LIB_DIR) $(LOPTS) -o $(LIB_DIR)/$(LIBNAME)
 
 clean:
 	\rm -f $(LIB_DIR)/$(LIBNAME) $(OBJ_DIR)/*.o $(OBJ_DIR)/*.a  \
