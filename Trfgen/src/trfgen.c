@@ -52,6 +52,7 @@ void trfgen_configure_test(int test_id, struct_test test_parms)
    tstcfg[test_id].rate = test_parms.rate;
    tstcfg[test_id].reverse = test_parms.reverse;
    tstcfg[test_id].length = test_parms.length;
+   tstcfg[test_id].parallel = test_parms.parallel;
 }
 
 void *start_server(void *test)
@@ -449,6 +450,10 @@ void trfgen_start_test(int test_id, char *host_ip, char *bind_ip, char *host_por
       iperf_set_test_stats_interval( test, tstcfg[test_id].duration );
       iperf_set_test_rate(test, tstcfg[test_id].rate);
       iperf_set_test_reverse(test, tstcfg[test_id].reverse);
+      if (tstcfg[test_id].parallel > 1)
+      {
+         iperf_set_test_num_streams(test, tstcfg[test_id].parallel);
+      }
       if (tstcfg[test_id].length > 0)
       {
          if(tstcfg[test_id].traffic_type == UDP)

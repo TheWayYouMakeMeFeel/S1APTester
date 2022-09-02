@@ -65,6 +65,7 @@ void trf_test_init(void)
    test_parms.traffic_type = TCP;
    test_parms.rate = 50000;
    test_parms.reverse = 0;
+   test_parms.parallel = 1;
 
    trfgen_configure_test(test_parms.test_id,test_parms);
 }

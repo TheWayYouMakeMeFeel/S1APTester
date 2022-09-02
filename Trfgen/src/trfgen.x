@@ -32,9 +32,10 @@ typedef struct _struct_test{
 	trf_type traffic_type;
 	int duration;
 	int server_timeout;
-	unsigned long long rate;
+	int rate;
 	int reverse;
 	int length;
+	int parallel;
 } struct_test;	
 typedef struct _struct_processIds{
 
