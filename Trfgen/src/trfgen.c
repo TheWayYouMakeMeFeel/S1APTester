@@ -49,6 +49,9 @@ void trfgen_configure_test(int test_id, struct_test test_parms)
    tstcfg[test_id].traffic_type = test_parms.traffic_type;
    tstcfg[test_id].server_timeout = test_parms.server_timeout;
    tstcfg[test_id].duration = test_parms.duration;
+   tstcfg[test_id].rate = test_parms.rate;
+   tstcfg[test_id].reverse = test_parms.reverse;
+   tstcfg[test_id].length = test_parms.length;
 }
 
 void *start_server(void *test)
@@ -444,15 +447,29 @@ void trfgen_start_test(int test_id, char *host_ip, char *bind_ip, char *host_por
       iperf_set_test_duration( test, tstcfg[test_id].duration);
       iperf_set_test_reporter_interval( test, tstcfg[test_id].duration );
       iperf_set_test_stats_interval( test, tstcfg[test_id].duration );
-      if(tstcfg[test_id].traffic_type == UDP)
+      iperf_set_test_rate(test, tstcfg[test_id].rate);
+      iperf_set_test_reverse(test, tstcfg[test_id].reverse);
+      if (tstcfg[test_id].length > 0)
       {
-         iperf_set_test_rate(test, 500000);
-         iperf_set_test_blksize( test, 1000 );
+         if(tstcfg[test_id].traffic_type == UDP)
+         {
+            iperf_set_test_blksize(test, tstcfg[test_id].length);
+         }
+         else
+         {
+            iperf_set_test_socket_bufsize(test, tstcfg[test_id].length);
+         }
       }
       else
       {
-         iperf_set_test_rate(test, 5000);
-         iperf_set_test_socket_bufsize(test,200);
+         if(tstcfg[test_id].traffic_type == UDP)
+         {
+            iperf_set_test_blksize(test, 1000 );
+         }
+         else
+         {
+            iperf_set_test_socket_bufsize(test,200);
+         }
       }
 #if 0
       /* create client thread */
